@@ -45,7 +45,7 @@ for thread in thread_list:
 for thread in thread_list:
     thread.join()
 
-getCards(1001100, maxImgUrlIndex)
+getCards(minImgUrlIndex, maxImgUrlIndex)
 
 """
 thread_count = 8
