@@ -16,9 +16,9 @@ def getCards(start, end):
             if ('Content-length' in r.headers):
                 with open(str(x) + '.jpg', 'wb') as f:
                     f.write(r.content)
-                    print(x, ': ' + r.headers['Content-type'], ' size: ', r.headers['Content-length'])
+                    print("[CARD OK] ", x, ': ' + r.headers['Content-type'], ' size: ', r.headers['Content-length'])
             else:
-                print(x, ' ', r.headers['Content-type'], " [NO CARD]")
+                print("[NO CARD] ", x, ' ', r.headers['Content-type'])
         except:
             print('exception, quitting')
             quit()
