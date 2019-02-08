@@ -25,6 +25,49 @@ def getCards(start, end):
             print('exception, quitting')
             quit()
 
+thread_count = 100
+thread_list = []
+
+for i in range(thread_count):
+    if (i <= 10):
+        start = math.floor(i * ((maxImgUrlIndex-minImgUrlIndex)/thread_count)) + 1 + minImgUrlIndex          
+        end = math.floor((i + 1) * ((maxImgUrlIndex-minImgUrlIndex)/thread_count)) + 1 + minImgUrlIndex
+        thread_list.append(threading.Thread(target=getCards, args=(start, end)))
+    else:
+        start = math.floor(i * ((maxImgUrlIndex-minImgUrlIndex)/thread_count)) + 1 + minImgUrlIndex          
+        end = math.floor((i + 1) * ((maxImgUrlIndex-minImgUrlIndex)/thread_count)) + 1 + minImgUrlIndex
+        thread_list.append(threading.Thread(target=getCards, args=(start, end)))
+
+
+for thread in thread_list:
+    thread.start()
+
+for thread in thread_list:
+    thread.join()
+
+getCards(1001100, maxImgUrlIndex)
+
+"""
+thread_count = 8
+thread_list = []
+
+for i in range(thread_count):
+    # Conditions so that thread 0 does not start at 0 index
+    if (i == 0):
+        start = minImgUrlIndex          
+        end   = int((maxImgUrlIndex - minImgUrlIndex) / 8)
+        thread_list.append(threading.Thread(target=getCards, args=(start, end)))
+    else:
+        start = math.floor(i * ((maxImgUrlIndex-minImgUrlIndex)/thread_count)) + 1          
+        end = math.floor((i + 1) * ((maxImgUrlIndex-minImgUrlIndex)/thread_count)) + 1 
+        thread_list.append(threading.Thread(target=getCards, args=(start, end)))
+
+
+for thread in thread_list:
+    thread.start()
+
+for thread in thread_list:
+    thread.join()
 
 getCards(10011000, maxImgUrlIndex)
-       
+"""    
