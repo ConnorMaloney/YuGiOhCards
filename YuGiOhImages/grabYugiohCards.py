@@ -4,27 +4,40 @@ import threading
 import math
 
 # Define boundaries
+# Checked 99 - 85
+# Checked 0 - 30
+#minImgUrlIndex = 10000000
+#maxImgUrlIndex = 100000000
+# Stopped at 1, 800, 800 checks
+
+# Do it in 500,000 intervals
+
 minImgUrlIndex = 10000000
-maxImgUrlIndex = 100000000
+maxImgUrlIndex = 10500000
 checks = 0
+cardsSaved = 0
+threadsRunning = 100
 # Scraping function
 def getCards(start, end):
     print("Scanning cards for ranges: ", start, " to ", end)
     # Trying reversed for now because script lost connection crashed 1/3rd way in 
-    for x in reversed(range(start, end)):
+    for x in range(start, end):
         global checks
+        global cardsSaved 
         try:
             r = requests.get('https://ygoprodeck.com/pics/' + str(x) + '.jpg')
             if ('Content-length' in r.headers):
                 with open(str(x) + '.jpg', 'wb') as f:
                     f.write(r.content)
                     checks += 1
-                    print("[CARD OK] ", x, ': ' + r.headers['Content-type'], ' size: ', r.headers['Content-length'], checks, " CHECKS")
+                    cardsSaved += 1
+                    print("[CARD OK] ", x, ': ' + r.headers['Content-type'], ' size: ', r.headers['Content-length'], checks, " CHECKS", cardsSaved, " CARDS SAVED", threadsRunning, " THREADS")
             else:
                 checks += 1
-                print("[NO CARD] ", x, ' ', r.headers['Content-type'], checks, " CHECKS")
+                print("[NO CARD] ", x, ' ', r.headers['Content-type'], checks, " CHECKS", cardsSaved, " CARDS SAVED", threadsRunning, " THREADS")
         except:
             print('exception, quitting')
+            threadsRunning -= 1
             quit()
 
 # Define threads
