@@ -24,6 +24,7 @@ def getCards(start, end):
     for x in range(start, end):
         global checks
         global cardsSaved 
+        global threadsRunning
         try:
             r = requests.get('https://ygoprodeck.com/pics/' + str(x) + '.jpg')
             if ('Content-length' in r.headers):
